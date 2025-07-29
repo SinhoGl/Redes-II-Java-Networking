@@ -1,5 +1,4 @@
-
-import java.lang.reflect.Array;
+package redes.questao_1;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
