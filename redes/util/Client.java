@@ -16,15 +16,33 @@ public class Client implements AutoCloseable {
     }
 
     /**
-     * Conecta com o servidor da porta indicada
+     * Conecta com o servidor da porta indicada e hostname padrão
      * 
      * @param port Porta do servidor
      * @throws IOException Exceção padrão de entrada e saida
      */
     public void connectToServer(int port) 
         throws IOException {
-        socket.connect(new InetSocketAddress("127.0.0.1", port), 1000);
-        System.out.println("Conexao com o servidor realizada com sucesso!");
+        connectToServer(port, "127.0.0.1");
+    }
+
+    /**
+     * Conecta com o servidor da porta e hostname indicados
+     * 
+     * @param port Porta do servidor
+     * @param hostname Nome do host 
+     * @throws IOException Exceção padrão de entrada e saida
+     */
+    public void connectToServer(int port, String hostname) 
+        throws IOException {
+        socket.connect(new InetSocketAddress(hostname, port), 1000);
+    }
+
+    /**
+     * Informa se o cliente esta conectado.
+     */
+    public boolean isConnected() {
+        return socket.isConnected();
     }
 
     /**
@@ -38,7 +56,6 @@ public class Client implements AutoCloseable {
         DataOutputStream dataOut = new DataOutputStream(socket.getOutputStream());
         dataOut.writeUTF(message);
     }
-
     
     /**
      * Le a mensagem do servidor conectado

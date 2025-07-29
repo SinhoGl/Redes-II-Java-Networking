@@ -29,7 +29,6 @@ public class Server implements AutoCloseable {
      */
     public void openServer() 
         throws IOException {
-        System.out.println("Servidor rodando, esperando por clientes...");
         clientSocket = serverSocket.accept();
     }
 
