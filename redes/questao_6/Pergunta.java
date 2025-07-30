@@ -1,3 +1,5 @@
+package redes.questao_6;
+
 public class Pergunta {
     private final String enunciado;
     private final String[] opcoes;

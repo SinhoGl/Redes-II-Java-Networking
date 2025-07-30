@@ -1,5 +1,4 @@
-
-
+package redes.questao_6;
 
 import java.io.BufferedReader;
 import java.io.IOException;
