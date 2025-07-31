@@ -31,15 +31,15 @@ public class TranslatorServer {
             while(true){
 
                 try (Socket clientSocket = serverSocket.accept();
-                    BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+                    while(true){
+                        String englishWord = in.readLine();
+                        System.out.println("Recebido do cliente: " + englishWord);
 
-                    String englishWord = in.readLine();
-                    System.out.println("Recebido do cliente: " + englishWord);
-
-                    String translation = dictionary.getOrDefault(englishWord.toLowerCase(), "Traducao nao encontrada.");
-                    out.println(translation);
-
+                        String translation = dictionary.getOrDefault(englishWord.toLowerCase(), "Traducao nao encontrada.");
+                        out.println(translation);
+                    }
                 } catch (IOException e) {  //Excessao caso nao haja comunicacao com cliente
                     System.err.println("Erro ao comunicar com o cliente: " + e.getMessage());
                 }
