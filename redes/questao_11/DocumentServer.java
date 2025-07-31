@@ -27,28 +27,29 @@ public class DocumentServer {
             DataInputStream entrada = new DataInputStream(socket.getInputStream());
             DataOutputStream saida = new DataOutputStream(socket.getOutputStream());
         ) {
-            String nomeArquivo = entrada.readUTF().trim();
-            File arquivo = new File(DIRETORIO + "/" + nomeArquivo);
+            while(true){
+                String nomeArquivo = entrada.readUTF().trim();
+                File arquivo = new File(DIRETORIO + "/" + nomeArquivo);
 
-            if (arquivo.exists() && !arquivo.isDirectory()) {
-                saida.writeBoolean(true);
-                saida.writeLong(arquivo.length());
+                if (arquivo.exists() && !arquivo.isDirectory()) {
+                    saida.writeBoolean(true);
+                    saida.writeLong(arquivo.length());
 
-                try (FileInputStream fis = new FileInputStream(arquivo)) {
-                    byte[] buffer = new byte[4096];
-                    int bytesLidos;
-                    while ((bytesLidos = fis.read(buffer)) != -1) {
-                        saida.write(buffer, 0, bytesLidos);
+                    try (FileInputStream fis = new FileInputStream(arquivo)) {
+                        byte[] buffer = new byte[4096];
+                        int bytesLidos;
+                        while ((bytesLidos = fis.read(buffer)) != -1) {
+                            saida.write(buffer, 0, bytesLidos);
+                        }
                     }
+
+                    System.out.println("Arquivo enviado: " + nomeArquivo);
+                } else {
+                    saida.writeBoolean(false);
+                    saida.writeUTF("Arquivo não encontrado.");
+                    System.out.println("Arquivo não encontrado: " + nomeArquivo);
                 }
-
-                System.out.println("Arquivo enviado: " + nomeArquivo);
-            } else {
-                saida.writeBoolean(false);
-                saida.writeUTF("Arquivo não encontrado.");
-                System.out.println("Arquivo não encontrado: " + nomeArquivo);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
